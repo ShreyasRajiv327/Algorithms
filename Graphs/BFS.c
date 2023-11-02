@@ -4,8 +4,8 @@
  
 #include <stdio.h>
  
-int n, i, j, visited[10], queue[10], front = -1, rear = -1;
-int adj[10][10];
+int n, i, j, visited[100], queue[100], front = -1, rear = -1;
+int adj[100][100];
  
 void bfs(int v)
 {
