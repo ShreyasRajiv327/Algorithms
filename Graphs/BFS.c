@@ -9,6 +9,10 @@ int adj[100][100];
  
 void bfs(int v)
 {
+    if(front==-1)
+    {
+        front=0;
+    }
     for (i = 1; i <= n; i++)
         if (adj[v][i] && !visited[i])
             queue[++rear] = i;
