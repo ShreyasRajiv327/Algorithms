@@ -1,93 +1,46 @@
-#include<stdio.h>
-#include<stdlib.h>
+/*
+ * C program to implement bfs using adjacency matrix
+ */
  
-struct queue
+#include <stdio.h>
+ 
+int n, i, j, visited[10], queue[10], front = -1, rear = -1;
+int adj[10][10];
+ 
+void bfs(int v)
 {
-    int size;
-    int f;
-    int r;
-    int* arr;
-};
- 
- 
-int isEmpty(struct queue *q){
-    if(q->r==q->f){
-        return 1;
-    }
-    return 0;
-}
- 
-int isFull(struct queue *q){
-    if(q->r==q->size-1){
-        return 1;
-    }
-    return 0;
-}
- 
-void enqueue(struct queue *q, int val){
-    if(isFull(q)){
-        printf("This Queue is full\n");
-    }
-    else{
-        q->r++;
-        q->arr[q->r] = val;
-        // printf("Enqued element: %d\n", val);
-    }
-}
- 
-int dequeue(struct queue *q){
-    int a = -1;
-    if(isEmpty(q)){
-        printf("This Queue is empty\n");
-    }
-    else{
-        q->f++;
-        a = q->arr[q->f]; 
-    }
-    return a;
-}
- 
-int main(){
-    // Initializing Queue (Array Implementation)
-    struct queue q;
-    q.size = 400;
-    q.f = q.r = 0;
-    q.arr = (int*) malloc(q.size*sizeof(int));
-    
-    // BFS Implementation 
-    int node;
-    int i = 1;
-    int visited[7] = {0,0,0,0,0,0,0};
-    int a [7][7] = {
-        {0,1,1,1,0,0,0},
-        {1,0,1,0,0,0,0},
-        {1,1,0,1,1,0,0},
-        {1,0,1,0,1,0,0},
-        {0,0,1,1,0,1,1},
-        {0,0,0,0,1,0,0}, 
-        {0,0,0,0,1,0,0} 
-    };
-    printf("%d", i);
-    visited[i] = 1;
-    enqueue(&q, i); // Enqueue i for exploration
-    while (!isEmpty(&q))
+    for (i = 1; i <= n; i++)
+        if (adj[v][i] && !visited[i])
+            queue[++rear] = i;
+    if (front <= rear)
     {
-        int node = dequeue(&q);
-        for (int j = 0; j < 7; j++)
-        {
-            if(a[node][j] ==1 && visited[j] == 0){
-                printf("%d", j);
-                visited[j] = 1;
-                enqueue(&q, j);
-            }
-        }
+        visited[queue[front]] = 1;
+        bfs(queue[front++]);
     }
+}
+ 
+int main()
+{
+    int v;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+    for (i = 1; i <= n; i++)
+    {
+        queue[i] = 0;
+        visited[i] = 0;
+    }
+    printf("Enter graph data in matrix form:    \n");
+    for (i = 1; i <= n; i++)
+        for (j = 1; j <= n; j++)
+            scanf("%d", &adj[i][j]);
+    printf("Enter the starting vertex: ");
+    scanf("%d", &v);
+    bfs(v);
+    printf("The node which are reachable are:    \n");
+    for (i = 1; i <= n; i++)
+        if (visited[i])
+            printf("%d\t", i);
+        else
+            printf("BFS is not possible. Not all nodes are reachable");
     return 0;
 }
- if(adjlist[s]->head==NULL)
-    {
-        src=(node*)malloc(sizeof(node));
-        src->Vertex=s;
-        src->next=NULL;
-        adjlist[s]->head=src;
-    }
