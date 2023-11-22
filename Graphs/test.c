@@ -1,96 +1,70 @@
 #include <stdio.h>
-#include <stdlib.h>
-
-struct node {
-    int vertex;
-    struct node* next;
-};
-
-struct Graph {
-    int numVertices;
-    struct node** adjLists;
-};
-
-struct node* createNode(int v) {
-    struct node* newNode = malloc(sizeof(struct node));
-    newNode->vertex = v;
-    newNode->next = NULL;
-    return newNode;
-}
-
-struct Graph* createGraph(int vertices) {
-    struct Graph* graph = malloc(sizeof(struct Graph));
-    graph->numVertices = vertices;
-    graph->adjLists = malloc(vertices * sizeof(struct node*));
-
-    int i;
-    for (i = 0; i < vertices; i++)
-        graph->adjLists[i] = NULL;
-
-    return graph;
-}
-
-void addEdge(struct Graph* graph, int s, int d) {
-    // Add edge from s to d
-    struct node* newNode = createNode(d);
-    newNode->next = graph->adjLists[s];
-    graph->adjLists[s] = newNode;
-
-    // Add edge from d to s (for undirected graph)
-    newNode = createNode(s);
-    newNode->next = graph->adjLists[d];
-    graph->adjLists[d] = newNode;
-}
-
-void printAdjacentVertices(struct Graph* graph, int vertex) {
-    if (vertex < 0 || vertex >= graph->numVertices) {
-        printf("-1\n");
-        return;
-    }
-
-    struct node* temp = graph->adjLists[vertex];
-    if (!temp) {
-        printf("-1\n");
-        return;
-    }
-
-    int first = 1; // To handle comma separation
-    while (temp) {
-        if (!first) {
-            printf(",");
+#include<stdbool.h>
+#define inf 9999
+int main()
+{
+    int adjMatrix[10][10];
+    int selected[10]={0,0,0,0,0,0,0,0,0,0};
+    
+    int vertices;
+    printf("Enter no of Vertices");
+    scanf("%d",&vertices);
+    int i,j;
+    for(i=0;i<10;i++)
+    {
+        for(j=0;j<10;j++)
+        {
+            adjMatrix[i][j]=0;
         }
-        printf("%d", temp->vertex);
-        first = 0;
-        temp = temp->next;
     }
-    printf("\n");
-}
-
-int main() {
-    int numVertices;
-    scanf("%d", &numVertices);
-
-    if (numVertices == 0) {
-        printf("-1\n");
-        return 0;
-    } else if (numVertices == 1) {
-        int singleVertex;
-        scanf("%d", &singleVertex);
-        printf("%d\n", singleVertex);
-        return 0;
+    int node,neighbour,weight;
+    node=-1;
+    neighbour=-1;
+    weight=-1;
+    while(node !=-1 && neighbour !=-1 && weight != -1)
+    {
+        printf("\nEnter the root node:");
+        scanf("%d",&node);
+        printf("\nEnter the neighbour for the node:");
+        scanf("%d",&neighbour);
+        printf("\nEnter the weight between them");
+        scanf("%d",&weight);
+        adjMatrix[node][neighbour]=weight;
+    }
+    selected[0]=1;
+    int x;
+    int y;
+    int ed=0;
+    while(ed<vertices)
+    {
+          int min = inf;
+          x = 0;
+          y = 0;
+          for(i=0;i<vertices;i++)
+          {
+            if(selected[i])
+            {
+                for(j=0;j<vertices;j++)
+                {
+                    if(!selected[j] && adjMatrix[i][j])
+                    {
+                        if(min>adjMatrix[i][j])
+                        {
+                            min=adjMatrix[i][j];
+                            x=i;
+                            y=j;
+                        }
+                    }
+                }
+            }
+          }
+       selected[y]=1;
+       ed++;
     }
 
-    struct Graph* graph = createGraph(numVertices);
 
-    int s, d;
-    while (scanf("%d", &s) == 1 && s != -1) {
-        scanf("%d", &d);
-        addEdge(graph, s, d);
-    }
+   
 
-    int queryVertex;
-    scanf("%d", &queryVertex);
-    printAdjacentVertices(graph, queryVertex);
 
-    return 0;
+
 }
