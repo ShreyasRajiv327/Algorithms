@@ -1,41 +1,50 @@
-def merge(L1,L2,L):
-    comp = 0
-    i=j=k=0
-    while(i<len(L1) and j<len(L2)):
-        comp += 1
-        if(L1[i]<L2[j]):
-            L[k]=L1[i]
+def merge_sort(arr):
+    comparisons = 0
+
+    if len(arr) > 1:
+        mid = len(arr) // 2
+        left_half = arr[:mid]
+        right_half = arr[mid:]
+
+        comparisons_left, left_half = merge_sort(left_half)
+        comparisons_right, right_half = merge_sort(right_half)
+        comparisons += comparisons_left + comparisons_right
+
+        i = j = k = 0
+
+        while i < len(left_half) and j < len(right_half):
+            comparisons += 1
+            if left_half[i] < right_half[j]:
+                arr[k] = left_half[i]
+                i += 1
+            else:
+                arr[k] = right_half[j]
+                j += 1
+            k += 1
+
+        while i < len(left_half):
+            arr[k] = left_half[i]
             i += 1
             k += 1
-        else:
-            L[k]=L2[j]
+
+        while j < len(right_half):
+            arr[k] = right_half[j]
             j += 1
             k += 1
-    while(i<len(L1)):
-        L[k]=L1[i]
-        i += 1
-        k += 1
-    while(j<len(L2)):
-        L[k]=L2[j]
-        j += 1
-        k += 1
-    print(comp)
-    print(" ".join(map(str,L)))
-        
-        
-size1=int(input(""))
-if size1 !=0 :
-    L1=list(map(int,input("").split()))
+
+    return comparisons, arr
+
+# Input processing
+size = int(input())
+if size == 0:
+    print(-1)
 else:
-    L1=[]
-size2=int(input(""))
-if size2 !=0 :
-    L2=list(map(int,input("").split()))
-else:
-    L2=[]
-size=size1+size2
-L=L1+L2
-if size==0:
-    print("-1")
-else:
-    merge(L1,L2,L)
+    elements = list(map(int, input().split()))
+
+    # Perform merge sort
+    comparisons, sorted_array = merge_sort(elements)
+
+    # Output the results
+    print(comparisons)
+    print(*sorted_array)
+
