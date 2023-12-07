@@ -9,10 +9,10 @@ else:
         v1, v2, w = map(int, input_str.split())
         adj[v1 - 1][v2 - 1] = w
         #adj[v2 - 1][v1 - 1] = w  # Since the graph is undirected
-        selected = [0] * vertices
-        selected[0] = 1
-        n = 0
-        mst = 0
+    selected = [0] * vertices
+    selected[0] = 1
+    n = 0
+    mst = 0
     while n < vertices - 1:
         min_edge = 9999
         u = -1
