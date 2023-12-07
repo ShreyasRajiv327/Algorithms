@@ -40,7 +40,7 @@ int main() {
             }
         }
 
-        printf("%d - %d : %d\n", x, y, G[x][y]);
+        printf("%d - %d : %d\n", x+1, y+1, G[x][y]);
         selected[y] = true;
         no_edge++;
     }
